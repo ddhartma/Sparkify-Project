@@ -33,19 +33,20 @@ Suppose, you are a Data Scientist at popular digital music service similar to Sp
 
 A user can interact with the Sparkify  service in multiple ways, e.g. playing songs, liking a song with a thumbs up, hearing an advertisement, downgrade the service etc. Every time a user interacts with the service data is generated. All this data contains information about keeping your users happy. Now and your Data Team get the task to predict which users are at risk to churn either downgrading from premium to free tier or cancelling their services altogether. If you could accurately **predict these users before they leave your service** you could offer them for example discounts. In the end this could increase your business revenue significantly.
 
-The web pages a user can intect with are:
+A user can interact with the following web pages:
 |    |     |    |
 | :------------- | :------------- | :------------- |
 | Cancel     | Roll Advert       | Submit Registration
 | Submit Downgrade     | Downgrade       | Upgrade 
+| Submit Upgrade      | Cancellation Confirmation       | Add Friend
 | Thumbs Down     | Thumbs Up        | Add to Playlist
-| Home     | Cancellation Confirmation       | Add Friend
 | Settings  | About       | NextSong
 | Save Settings     | Help       | Logout
+| Home | Error |  Login
  
 
 
-To tackle this project to predict "churn users", there is a full dataset of 12GB. A depoyment of a Spark cluster on a cloud service using AWS or IBM Cloud to analyze a larger amount of data would be possible. Here, for prototyping purposes using Spark's DataFrame techniques, a small 128MB subset of this data is analysed.
+To tackle this project to predict "churning users", there is a full dataset of 12GB. A depoyment of a Spark cluster on a cloud service using AWS or IBM Cloud to analyze a larger amount of data would be possible. Here, for prototyping purposes using Spark's DataFrame techniques, a small 128MB subset of this data is analysed.
 
 A user who churned submitted a **Submit Downgrade** or **Cancellation Confirmation** event.
 
@@ -61,6 +62,29 @@ In order to predict **churn** the followings steps need to be addressed:
 9. Evaluate the model using F1 score.
 
 ## DataFrame Understanding <a name="DataFrame_Understanding"></a>
+The columns of the dataframe consist of the following set:
+
+| Column Name    | Type  | Description
+| :------------- | :------------- | :------------- 
+| artist    | string     | user identifier
+| auth    | string     | authentication level, 4 categories (Logged In, Logged Out, Cancelled, Guest) 
+| firstName    | string     | user's first name
+| itemInSession    | long     | item count during a session
+| lastName    | string     | user's last name
+| length    | double     | length of a song in seconds
+| level    | string     | user's account type, 2 categories (free or paid)
+| location    | string     | user's location
+| method    | string     |type of http request method; 2 categories (GET and PUT)
+| page    | string     | type of interaction, 22 categories (see above)
+| registration    | long     | timestamp of user registration
+| sessionId    | long     | actual user's session number 
+| song    | string     | name of the actual song  
+| status    | long     | http status code, 3 categories (200, 307 and 404)
+| ts    | long     | timestamp of log
+| userAgent    | string     | agent used by the user to access the streaming service, 57 different categories
+| userId    | string     | user identifier
+
+
 - The json file 'mini_sparkify_event_data.json' has been loadded into a Spark dataframe
 - A dataframe explanatory gave the following results:
     - 286500 entries in the dataset
