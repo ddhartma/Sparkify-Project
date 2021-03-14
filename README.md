@@ -29,31 +29,21 @@ Spark is currently one of the most popular tools for big data analytics. You mig
 
 ## Business Understanding - The Goal of the Project <a name="project_goal"></a>
 
-Imagine, we are working in the data team of a popular digital music service similar to Spotify or Pandora. Let's call it Sparkify. Users of Sparkify can stream their favourite songs either by using a free tier that places advertisements between the songs or by using the premium subscription model. The latter one is a flat rate account, where they stream music as free but pay a fixed price on a monthly base. Users can upgrade, downgrade or cancel their service at any time. So it's crucial to make sure our users love the service.
+Suppose, you are a Data Scientist at popular digital music service similar to Spotify or Pandora. Let's call it Sparkify. Users of Sparkify can stream their favourite songs either by using a free tier that places advertisements between the songs or by using the premium subscription model. The latter one is a flat rate account, where they stream music as free but pay a fixed price on a monthly base. Users can upgrade, downgrade or cancel their service at any time. So it's crucial to make sure our users love the service.
 
-A user can interact with the service in multiple ways, e.g. playing songs, logging out, liking a song with a thumbs up, hearing an ad, downgrade the service etc. Every timne a user interacts with the service data is generated. All this data contains the key insights for keeping your users happy and helping your business thrive. It's your job on the data team to predict which users are at risk to churn either downgrading from premium to free tier or cancelling their services altogether. If you could accurately **predict these users before they leave your business** could offer them discounts and incentives potentially saving your business millions in revenue.
+A user can interact with the Sparkify  service in multiple ways, e.g. playing songs, liking a song with a thumbs up, hearing an advertisement, downgrade the service etc. Every time a user interacts with the service data is generated. All this data contains information about keeping your users happy. Now and your Data Team get the task to predict which users are at risk to churn either downgrading from premium to free tier or cancelling their services altogether. If you could accurately **predict these users before they leave your service** you could offer them for example discounts. In the end this could increase your business revenue significantly.
 
 The web pages a user can intect with are:
-- Cancel
-- Submit Downgrade
-- Thumbs Down
-- Home
-- Downgrade
-- Roll Advert
-- Logout
-- Save Settings
-- Cancellation Confirmation
-- About
-- Submit Registration
-- Settings
-- Login
-- Register
-- Add to Playlist
-- Add Friend
-- NextSong
-- Thumbs Up
-- Help
-- Upgrade
+|    |     |    |
+| :------------- | :------------- | :------------- |
+| Cancel     | Roll Advert       | Submit Registration
+| Submit Downgrade     | Downgrade       | Upgrade 
+| Thumbs Down     | Thumbs Up        | Add to Playlist
+| Home     | Cancellation Confirmation       | Add Friend
+| Settings  | About       | NextSong
+| Save Settings     | Help       | Logout
+ 
+
 
 To tackle this project to predict "churn users", there is a full dataset of 12GB. A depoyment of a Spark cluster on a cloud service using AWS or IBM Cloud to analyze a larger amount of data would be possible. Here, for prototyping purposes using Spark's DataFrame techniques, a small 128MB subset of this data is analysed.
 
