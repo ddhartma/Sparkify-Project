@@ -85,14 +85,16 @@ The columns of the dataframe consist of the following set:
 | userId    | string     | user identifier
 
 
-- The json file 'mini_sparkify_event_data.json' has been loadded into a Spark dataframe
-- A dataframe explanatory gave the following results:
+- The json file 'mini_sparkify_event_data.json' was loaded into a Spark dataframe
+- From a dataframe exploration the following results were obvious:
     - 286500 entries in the dataset
-    - 226 unique users, 189 unique last names and 56 unique first names.
-    - 2354 unique sessionIds.
-    - 8346 users with an 'empty string userId' and without first, last name and gender. 
+    - 226 unique users, 189 unique last names and 56 unique first names
+    - 2354 unique sessionIds
+    - 8346 users with an 'empty string userId' and without first, last name and gender
     - 0 null userIds
     - 0 null sessionIds
+    - 52 'churned' user
+    - 173 'non-churned' user
     
     ![image1]
 
@@ -109,7 +111,7 @@ The columns of the dataframe consist of the following set:
     - Return model dataframe **df_model**
 
 - The following feature set seems to be promising with regard to predict 'churn' (for further information please take a look into the notebook of this repo). Each feature is a column within an Apache Spark DataFrame. Each row contains the feature data for one unique user.
-
+    - **gender**: The gender of the user
     - ***membership_duration***: The duration of the membership 
     - ***total_num_songs_played***: The total number of songs played
     - ***avg_num_songs_session***: The average number of songs played during one session
@@ -118,7 +120,7 @@ The columns of the dataframe consist of the following set:
     - ***num_add_playlist***: Number of songs added to the playlist
     - ***num_add_friends***: Number of friends added 
 
-- After this extraction step features had to be transformed to scaled Spark Vectors and the new dataframe was split into training and validation sets. Those actions were implemeted in the function **prepare_model_dataframe** and included the following steps:
+- After the feature extraction procedure features had to be transformed to scaled Spark Vectors and the new dataframe was split into training and validation sets. Those actions were implemeted in the notebook function **prepare_model_dataframe** and included the following steps:
     - Convert numeric columns to Spark's vector type via **VectorAssembler**
     - Scale vectorized data via Spark's **MinMaxScaler**
     - Split dataframe into training and validation sets via **randomSplit**
