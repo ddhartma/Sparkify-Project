@@ -38,14 +38,14 @@ A user can interact with the Sparkify service in multiple ways, e.g. playing son
 A user can interact with the following web pages:
 |    |     |    |
 | :------------- | :------------- | :------------- |
-| Cancel     | Roll Advert       | Submit Registration
-| Submit Downgrade     | Downgrade       | Upgrade 
-| Submit Upgrade      | Cancellation Confirmation       | Add Friend
-| Thumbs Down     | Thumbs Up        | Add to Playlist
-| Settings  | About       | NextSong
-| Save Settings     | Help       | Logout
-| Home | Error |  Login
- 
+| About     | Add Friend       | Add to Playlist
+| Cancel     | Cancellation Confirmation       | Downgrade 
+| Error     | Help       | Home
+| Login     | Logout       | NextSong
+| Register  | Roll Advert       | Save Settings
+| Settings     | Submit Downgrade      | Submit Registration
+| Submit Upgrade | Thumbs Down | Thumbs Up
+| Upgrade|||
 
 A dataset of 12GB (provided by Udacity) is the base for this project. To tackle such a Big Data task a data deployment on a distributed computing cluster, preferably by using a service like AWS or IBM Cloud, would be beneficial. In the following, for prototyping purposes, a small 128MB subset (‘mini_sparkify_event_data.json’) was analysed. However, in order to apply the model development to distributed cloud cluster environments in the future, Apache Spark’s DataFrame and Machine Learning techniques were implemented (instead of scikit-learn frameworks for example).
 
