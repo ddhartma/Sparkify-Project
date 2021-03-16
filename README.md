@@ -70,6 +70,7 @@ The columns of the dataframe are:
 | artist    | string     | user identifier
 | auth    | string     | authentication level, 4 categories (Logged In, Logged Out, Cancelled, Guest) 
 | firstName    | string     | user's first name
+| gender | string | the gender of the user, 2 categories (M, F)
 | itemInSession    | long     | item count during a session
 | lastName    | string     | user's last name
 | length    | double     | length of a song in seconds
