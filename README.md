@@ -103,26 +103,29 @@ The columns of the dataframe are:
 ## DataFrame preparation <a name="DataFrame_preparation"></a>
 - For feature engineering purposes a function called **create_dataframe_for_modeling** was created. It contains the feature extraction process and returns a dataframe for modeling. This is workflow of this function.
     - Read the dataframe from a json file
-    - Clean the Dataframe
-    - Define churn, create a label column
-    - Create feature columns (via further function calls)
-    - Remove unnecassary columns
-    - Fill NaN with 0
+    - Clean the dataframe (i.e. drop entries with empty string userIds)
+    - Define churn and create a label column called ‘churn’
+    - Create feature columns (via feature function calls)
+    - Normalize features by membership duration
+    - Join features together in df_model
+    - Remove columns which are not needed anymore
+    - Fill NaN with 0 (if there would be any)
     - Cast features to float
-    - Rename churn with label
-    - Return model dataframe **df_model**
+    - Rename churn with ‘label’
+    - Return a model dataframe called **df_model**
 
 - The following feature set seems to be promising with regard to predict 'churn' (for further information please take a look into the notebook of this repo). Each feature is placed in an Apache Spark DataFrame (col1 = userId, col2 = feature). Each row contains the feature data for one unique user.
     - **gender**: The gender of the user
     - ***membership_duration***: The duration of the membership 
-    - ***total_num_songs_played***: The total number of songs played
+    - ***rate_songs_played***: The total number of songs played per day and user
     - ***avg_num_songs_session***: The average number of songs played during one session
-    - ***num_thumbs_up***: The total number of thumbs up
-    - ***num_thumbs_down***: The total numer of thumbs down
-    - ***num_add_playlist***: Number of songs added to the playlist
-    - ***num_add_friends***: Number of friends added 
+    - ***rate_thumbs_up***: The total number of thumbs up per day and user
+    - ***rate_thumbs_down***: The total numer of thumbs down per day and user
+    - ***rate_errors***: The total number of occurred errors per day and user
+    - ***rate_add_playlist***: Number of songs added to the playlist per day and user
+    - ***rate_add_friends***: Number of friends added per day and user
 
-- After feature extraction features had to be transformed to scaled Spark Vectors. Then the new dataframe was split into training and validation sets. Those actions were implemeted in the notebook function **prepare_model_dataframe** and included the following steps:
+- After feature extraction, features had to be transformed to scaled Spark Vectors. Then the new dataframe was split into training and validation sets. Those actions were implemeted in the notebook function **prepare_model_dataframe** with the following steps:
     - Convert numeric columns to Spark's vector type via **VectorAssembler**
     - Scale vectorized data via Spark's **MinMaxScaler**
     - Split dataframe into training and validation sets via **randomSplit**
@@ -139,12 +142,11 @@ The columns of the dataframe are:
 - Thereby the f1 score is highly sensitiv to the choice of hyperparameters. Hence it is believed, there is still room for optimizations. 
 - All three models show that the duration of membership is a good feature for predicting churn. For all three moodels this feature has realtively high feature importance values.
 
-    ![image2]
 
 ## Further optimizations <a name="further_optimizations"></a>
 - Tune the the hyperparameters of the corresponding classifier and regression models in a wider range.  However, take care about overfitting especially when tuning maxIter.
 - Implement further hyperparameters for model tuning (see above).
-- Use a larger dataset. 225 unique users is just a small subset. It is believed that a transfer to the 12GB dataset could result in higher f1 scores. In addition, other metrics like accuracy could then be used as the binary label set (1 or 0) could be more evenly distributed.
+- Use a larger dataset. 225 unique users is just a small subset. It is believed that a transfer to the 12GB dataset could result in higher f1 scores.
 - Implement further features for modeling.
 - Integrate other databases in order to link song names with genre as an example. Maybe dissapointed, churned user may like to listen to a special kind of genre which is only weakly supported by Sparkify at the moment. This result could be also used as a baseline for a Recommendation Engine in future optimizations.
 
