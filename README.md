@@ -27,11 +27,11 @@ Furthermore: Please take look at my medium Blog post [How to predict users churn
 
 Why is Spark a powerful tool for **Big Data** Analytics? 
 
-Besides Hadoop, Spark is currently one of the most popular tools for big data analytics. Hadoop is a slightly older technology although still in use by some companies. Spark is generally faster than Hadoop, which is why Spark has become more popular over the last few years.
+Besides Hadoop, Spark - slightly newer and faster technology than Hadoop - is currently one of the most popular tools for big data analytics. 
 
 ## Business Understanding - The Goal of the Project <a name="project_goal"></a>
 
-Suppose, you are a Data Scientist at popular digital music service similar to Spotify or Pandora. Let's call it Sparkify. Users of Sparkify can stream their favourite songs either by using a free tier that places advertisements between the songs or by using the premium subscription model. The latter one is a flat rate account, where they stream music as free but pay a fixed price on a monthly base. Users can upgrade, downgrade or cancel their service at any time. So it's crucial to make sure our users love the service.
+Suppose, you are a Data Scientist at popular digital music service similar to Spotify or Pandora. Let's call it Sparkify. Users of Sparkify can stream their favorite songs either by using a free tier that places advertisements between the songs or by using the premium subscription model. The latter one is a flat rate account, where they stream music as free but pay a fixed price on a monthly basis. Users can upgrade, downgrade or cancel their service at any time. So it's crucial to make sure our users love the service.
 
 A user can interact with the Sparkify service in multiple ways, e.g. playing songs, liking a song with a thumbs up, listen to an advertisement, downgrade the service etc. Every time a user interacts with the service data is generated. All this data contains information about keeping your users happy. Now your Data Team receive the task to predict which users are at risk to churn either downgrading from premium to free tier or cancelling their services altogether. If you could accurately **predict these users before they leave your service** you could offer them for example discounts. In the end this could increase your business revenue significantly.
 
@@ -47,7 +47,7 @@ A user can interact with the following web pages:
 | Submit Upgrade | Thumbs Down | Thumbs Up
 | Upgrade|||
 
-A dataset of 12GB (provided by Udacity) is the base for this project. To tackle such a Big Data task a data deployment on a distributed computing cluster, preferably by using a service like AWS or IBM Cloud, would be beneficial. In the following, for prototyping purposes, a small 128MB subset (‘mini_sparkify_event_data.json’) was analysed. However, in order to apply the model development to distributed cloud cluster environments in the future, Apache Spark’s DataFrame and Machine Learning techniques were implemented (instead of scikit-learn frameworks for example).
+A dataset of 12GB (provided by Udacity) is the base for this project. To tackle such a Big Data task a data deployment on a distributed computing cluster, preferably by using a service like AWS or IBM Cloud, would be beneficial. In the following, for prototyping purposes, a small 128MB subset (‘mini_sparkify_event_data.json’) was analyzed. However, in order to apply the model development to a scaled-up, distributed cloud cluster environment in the future, Apache Spark’s DataFrame and Machine Learning techniques have already been implemented (instead of scikit-learn framework for example).
 
 A user who churned submitted a **Submit Downgrade** or **Cancellation Confirmation** event.
 
@@ -63,7 +63,7 @@ In order to predict **churn** the following steps need to be addressed:
 9. Evaluate the model using F1 score.
 
 ## DataFrame Understanding <a name="DataFrame_Understanding"></a>
-The columns of the dataframe are:
+The columns of the DataFrame are:
 
 | Column Name    | Type  | Description
 | :------------- | :------------- | :------------- 
@@ -87,8 +87,8 @@ The columns of the dataframe are:
 | userId    | string     | user identifier
 
 
-- The json file 'mini_sparkify_event_data.json' was loaded into a Spark dataframe
-- From a dataframe exploration resulted in:
+- The json file 'mini_sparkify_event_data.json' was loaded into a Spark DataFrame
+- From a DataFrame exploration resulted in:
     - 286500 entries in the dataset
     - 226 unique users, 189 unique last names and 56 unique first names
     - 2354 unique sessionIds
@@ -101,9 +101,9 @@ The columns of the dataframe are:
     ![image1]
 
 ## DataFrame preparation <a name="DataFrame_preparation"></a>
-- For feature engineering purposes a function called **create_dataframe_for_modeling** was created. It contains the feature extraction process and returns a dataframe for modeling. This is workflow of this function.
-    - Read the dataframe from a json file
-    - Clean the dataframe (i.e. drop entries with empty string userIds)
+- For feature engineering purposes a function called **create_dataframe_for_modeling** has been implemented. It contains the feature extraction process and returns a DataFrame for modeling. Let's take a look at the workflow of this function:
+    - Read the DataFrame from a json file
+    - Clean the DataFrame (i.e. drop entries with empty string userIds)
     - Define churn and create a label column called ‘churn’
     - Create feature columns (via feature function calls)
     - Normalize features by membership duration
@@ -112,10 +112,10 @@ The columns of the dataframe are:
     - Fill NaN with 0 (if there would be any)
     - Cast features to float
     - Rename churn with ‘label’
-    - Return a model dataframe called **df_model**
+    - Return a model DataFrame called **df_model**
 
-- The following feature set seems to be promising with regard to predict 'churn' (for further information please take a look into the notebook of this repo). Each feature is placed in an Apache Spark DataFrame (col1 = userId, col2 = feature). Each row contains the feature data for one unique user.
-    - **gender**: The gender of the user
+- The following feature set seems to be promising with regard to predict 'churn' (for further information please check the notebook of this repo). Each feature is placed in an Apache Spark DataFrame (col1 = userId, col2 = feature). Each row contains the feature data for one unique user.
+    - ***gender***: The gender of the user
     - ***membership_duration***: The duration of the membership 
     - ***rate_songs_played***: The total number of songs played per day and user
     - ***avg_num_songs_session***: The average number of songs played during one session
@@ -125,36 +125,36 @@ The columns of the dataframe are:
     - ***rate_add_playlist***: Number of songs added to the playlist per day and user
     - ***rate_add_friends***: Number of friends added per day and user
 
-- After feature extraction, features had to be transformed to scaled Spark Vectors. Then the new dataframe was split into training and validation sets. Those actions were implemeted in the notebook function **prepare_model_dataframe** with the following steps:
+- After feature extraction, features had to be transformed to scaled Spark Vectors. Then the new DataFrame was split into training and validation sets. Those actions were implemeted in the notebook function **prepare_model_dataframe** with the following steps:
     - Convert numeric columns to Spark's vector type via **VectorAssembler**
     - Scale vectorized data via Spark's **MinMaxScaler**
-    - Split dataframe into training and validation sets via **randomSplit**
+    - Split DataFrame into training and validation sets via **randomSplit**
 
 ## Modeling <a name="modeling"></a>
-- After features were succesfully extracted and prepared by vectorization, scaling and further cleaning, different Machine Learning models based on **Logistic Regression**, **Random Forest Classification** and **Gradient Boosting Trees** were trained and applied to the dataset with the aim to predict churn.
-- Thereby, the model was created by using Spark's Pipeline module. Features were first vectorized, then scaled and than fit by classification or regression.
+- After features were successfully extracted and prepared by vectorization, scaling and further cleaning, different Machine Learning models based on **Logistic Regression**, **Random Forest Classification** and **Gradient Boosting Trees** were trained and applied to the dataset with the aim to predict churn.
+- Thereby, the model was created by using Spark's Pipeline module. Features were first vectorized, then scaled and fit by classification or regression.
 - By using Spark's ParamGridBuilder different classifier/regression model hyperparameters were tuned, e.g. maximum number of iterations or number of trees.
 - Via Spark's CrossValidator the differnt pipeline estimators were evaluated. Thereby The number of folds was fixed to 3. 
 
 ## Evaluation <a name="evaluation"></a>
--  As the dataset is small and **churned (label=1)** and **non churned (label=0)** users are not evenly distributed the f1 score should be the best metric for predicting churn.
-- The highest f1 score was achieved for the RandomForestClassifer approach. 
-- Thereby the f1 score is highly sensitiv to the choice of hyperparameters. Hence it is believed, there is still room for optimizations. 
-- All three models show that the duration of membership is a good feature for predicting churn. For all three moodels this feature has realtively high feature importance values.
+-  As the dataset is small and **churned (label=1)** and **non churned (label=0)** users are not evenly distributed the F1 score should be the best metric for predicting churn.
+- The highest F1 score was achieved for the RandomForestClassifer approach. 
+- Thereby the F1 score is highly sensitive to the choice of hyperparameters. Hence, it is believed, that there is still room for optimizations. 
+- All three models show that the duration of user's membership is a good feature for predicting churn. For all three models this feature shows relatively high feature importance values.
 
 
 ## Further optimizations <a name="further_optimizations"></a>
-- Tune the the hyperparameters of the corresponding classifier and regression models in a wider range.  However, take care about overfitting especially when tuning maxIter.
+- Tune the hyperparameters of the corresponding classifier and regression models in a wider range.  However, take care about overfitting especially when tuning maxIter.
 - Implement further hyperparameters for model tuning (see above).
-- Use a larger dataset. 225 unique users is just a small subset. It is believed that a transfer to the 12GB dataset could result in higher f1 scores.
+- Use a larger dataset. 225 unique users is just a small subset. It is believed that a transfer to the 12GB dataset could result in higher F1 scores.
 - Implement further features for modeling.
-- Integrate other databases in order to link song names with genre as an example. Maybe dissapointed, churned user may like to listen to a special kind of genre which is only weakly supported by Sparkify at the moment. This result could be also used as a baseline for a Recommendation Engine in future optimizations.
+- Integrate other databases in order to link song names with genre as an example. Maybe disappointed, churned user may like to listen to a special kind of genre which is only weakly supported by Sparkify at the moment. This result could be also used as a baseline for a Recommendation Engine in future optimizations.
 
 
 ## Files in the repo <a name="files_in_repo"></a>
 - **Sparkify.ipynb** - the Jupyter Notebook containing all Data Understanding, Preparation as well as Modeling and Evaluation results.
 - **assets** - folder containing images depicted in this readme.
-- Please pay attention: the json dataset file (128MB) **mini_sparkify_event_data.json** containing the investigated subset of Sparkify data is not provided in this repo. This file is part of the [Udacity Nanodegree program 'Data Science'](https://www.udacity.com) . 
+- Please pay attention: the json dataset file (128MB) **mini_sparkify_event_data.json** containing the investigated subset of Sparkify data is not provided in this repo. This file is part of the [Udacity Nanodegree program 'Data Science'](https://www.udacity.com). 
 
 ## Setup Instructions <a name="Setup_Instructions"></a>
 The following is a brief set of instructions on setting up a cloned repository.
